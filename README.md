@@ -39,18 +39,20 @@ Note that this library  allows nearest neighbour search for arbitrary points, wh
 KdPoint<Integer> searchPoint = points.get(0);
 KdPoint<Integer> nearestOtherPoint = solver.findNearestPoint(searchPoint);
 
-// Returns the nearest point at (5, 5) to this instance, instead of the point instance at (5, 8) we used to search.
-// When provided a new point instance at (5, 8) instead, the closest point would be the original point at (5, 8).
+// Returns the nearest point at (5, 5) to this instance,
+// instead of the point instance at (5, 8) we used to search.
+// When provided a new point instance at (5, 8) instead,
+// the closest point would be the original point at (5, 8).
 ```
 
 To improve performance, you should always use a `NNSolverOrchestrator`, which distributes the workload to a set number of threads. Using the orchestrator is pretty straightforward:
 
-```
+```java
 int workerThreadsCount = Runtime.getRuntime().availableProcessors();
 
 final List<KdPoint<Integer>> searchPoints = new ArrayList<>();
-points.add(new KdPoint<>(1, 1));
-points.add(new KdPoint<>(7, 7));
+searchPoints.add(new KdPoint<>(1, 1));
+searchPoints.add(new KdPoint<>(7, 7));
     
 NNSolverOrchestrator<Integer> solverOrchestrator = new NNSolverOrchestrator<>(tree, workerThreadsCount);
 

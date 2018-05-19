@@ -45,14 +45,14 @@ KdPoint<Integer> nearestOtherPoint = solver.findNearestPoint(searchPoint);
 // the closest point would be the original point at (5, 8).
 ```
 
-You should always use a `NNSolverOrchestrator` to improve performance. It distributes the workload to a set number of threads. 
+You should always use a `NNSolverOrchestrator` to get the best performance. It will distribute the workload to a given number of threads. 
 
 Using an orchestrator is just as easy:
 
 ```java
 int workerThreadsCount = Runtime.getRuntime().availableProcessors();
 
-final List<KdPoint<Integer>> searchPoints = new ArrayList<>();
+List<KdPoint<Integer>> searchPoints = new ArrayList<>();
 searchPoints.add(new KdPoint<>(1, 1));
 searchPoints.add(new KdPoint<>(7, 7));
     

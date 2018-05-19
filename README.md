@@ -5,7 +5,7 @@ Finding the [nearest neighbour](https://en.wikipedia.org/wiki/Nearest_neighbor_s
 Just download the repository and include the sources in your project.
 
 ## Usage
-You need to create a `KdTree` based on a list of `KdPoints`. Both classes use generics to allow any point data payload. Use `Integer`, `Double` or any other class extending `java.lang.Number` and implementing the `Comparable` interface.
+To search for any nearest neighbours points, you first need to set up a `KdTree` based on a list of `KdPoints`. Both classes use generics to allow any point data payload. Use `Integer`, `Double` or any other class extending `java.lang.Number` and implementing the `Comparable` interface.
 
 Start by setting up a list of k-dimensional points:
 ```java

@@ -1,4 +1,4 @@
-package de.jilocasin.kdtree.model;
+package de.jilocasin.kdtree;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;

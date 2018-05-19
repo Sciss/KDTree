@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class KdTree<T extends Comparable<T>> {
+public class KdTree<T extends Number & Comparable<T>> {
 	/**
 	 * Use 1 % of original points to choose a median approximation.
 	 */
@@ -17,12 +17,12 @@ public class KdTree<T extends Comparable<T>> {
 
 	public final int dimensionCount;
 
-	public final KdTreeNode<T> rootNode;
+	public final KdNode<T> rootNode;
 
 	public KdTree(final int dimensionCount, final List<KdPoint<T>> points) {
 		this.dimensionCount = dimensionCount;
 
-		rootNode = buildNode(0, points);
+		rootNode = buildNode(null, points, 0);
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class KdTree<T extends Comparable<T>> {
 		return depth % dimensionCount;
 	}
 
-	private KdTreeNode<T> buildNode(final int depth, final List<KdPoint<T>> points) {
+	private KdNode<T> buildNode(final KdNode<T> parentNode, final List<KdPoint<T>> points, final int depth) {
 		if (points.isEmpty()) {
 			return null;
 		}
@@ -47,7 +47,7 @@ public class KdTree<T extends Comparable<T>> {
 
 		// Create node and construct subtrees.
 
-		final KdTreeNode<T> newNode = new KdTreeNode<>(medianPoint, depth, axisIndex);
+		final KdNode<T> newNode = new KdNode<>(medianPoint, depth, axisIndex);
 
 		// Assume both sides have approximately half the number of points.
 
@@ -66,8 +66,12 @@ public class KdTree<T extends Comparable<T>> {
 			}
 		}
 
-		newNode.setLeftNode(buildNode(depth + 1, leftOfMedian));
-		newNode.setRightNode(buildNode(depth + 1, rightOfMedian));
+		final KdNode<T> leftNode = buildNode(newNode, leftOfMedian, depth + 1);
+		final KdNode<T> rightNode = buildNode(newNode, rightOfMedian, depth + 1);
+
+		newNode.setLeftNode(leftNode);
+		newNode.setRightNode(rightNode);
+		newNode.setParentNode(parentNode);
 
 		return newNode;
 	}

@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import de.jilocasin.kdtree.generator.RandomDoubleKdTreeGenerator;
+import de.jilocasin.kdtree.model.KdNode;
 import de.jilocasin.kdtree.model.KdTree;
-import de.jilocasin.kdtree.model.KdTreeNode;
 
 class KdTreeTest {
 	private static final int POINT_COUNT = 100_000;
@@ -31,13 +31,13 @@ class KdTreeTest {
 		checkNode(tree, tree.rootNode);
 	}
 
-	void checkNode(final KdTree<Double> tree, final KdTreeNode<Double> node) {
+	void checkNode(final KdTree<Double> tree, final KdNode<Double> node) {
 		final int axisIndex = node.axisIndex;
 
 		// Assert that the value of the left node on the relevant axis index is always
 		// smaller than or equal to the parent we're checking.
 
-		final KdTreeNode<Double> leftNode = node.getLeftNode();
+		final KdNode<Double> leftNode = node.getLeftNode();
 
 		if (leftNode != null) {
 
@@ -48,13 +48,15 @@ class KdTreeTest {
 
 			assertTrue(leftNode.point.values.get(axisIndex) <= node.point.values.get(axisIndex));
 
+			assertTrue(leftNode.getParentNode() == node);
+
 			checkNode(tree, leftNode);
 		}
 
 		// Assert that the value of the left node on the relevant axis index is always
 		// larger than the parent we're checking.
 
-		final KdTreeNode<Double> rightNode = node.getRightNode();
+		final KdNode<Double> rightNode = node.getRightNode();
 
 		if (rightNode != null) {
 			assertEquals(rightNode.depth, node.depth + 1);
@@ -63,6 +65,8 @@ class KdTreeTest {
 			assertEquals(rightNode.axisIndex, tree.getAxisIndex(rightNode.depth));
 
 			assertTrue(rightNode.point.values.get(axisIndex) > node.point.values.get(axisIndex));
+
+			assertTrue(rightNode.getParentNode() == node);
 
 			checkNode(tree, rightNode);
 		}

@@ -6,7 +6,7 @@ import java.util.List;
 import de.jilocasin.kdtree.model.KdPoint;
 import de.jilocasin.kdtree.model.KdTree;
 
-public abstract class RandomKdTreeGenerator<T extends Comparable<T>> {
+public abstract class RandomKdTreeGenerator<T extends Number & Comparable<T>> {
 
 	public KdTree<T> generate(final int dimensionCount, final int pointCountt) {
 		return new KdTree<>(dimensionCount, generatePoints(dimensionCount, pointCountt));

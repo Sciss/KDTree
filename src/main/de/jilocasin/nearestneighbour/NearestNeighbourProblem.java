@@ -2,7 +2,7 @@ package de.jilocasin.nearestneighbour;
 
 import de.jilocasin.kdtree.generator.RandomDoubleKdTreeGenerator;
 import de.jilocasin.kdtree.model.KdTree;
-import de.jilocasin.kdtree.model.KdTreeNode;
+import de.jilocasin.kdtree.model.KdNode;
 
 public class NearestNeighbourProblem {
 	private static final int DIMENSION_COUNT = 2;
@@ -17,7 +17,7 @@ public class NearestNeighbourProblem {
 		printNode(tree.rootNode);
 	}
 
-	private static void printNode(final KdTreeNode<Double> node) {
+	private static void printNode(final KdNode<Double> node) {
 		if (node == null) {
 			return;
 		}
@@ -31,7 +31,7 @@ public class NearestNeighbourProblem {
 		printNode(node.getRightNode());
 	}
 
-	private static String getNodePointDescription(final KdTreeNode<Double> node) {
+	private static String getNodePointDescription(final KdNode<Double> node) {
 		if (node != null) {
 			return node.point.toString();
 		} else {

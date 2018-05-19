@@ -56,7 +56,7 @@ searchPoints.add(new KdPoint<>(7, 7));
     
 NNSolverOrchestrator<Integer> solverOrchestrator = new NNSolverOrchestrator<>(tree, workerThreadsCount);
 
-List<KdPoint<Integer>> nearestPoints = solverOrchestrator.findNearestPoints(points);
+List<KdPoint<Integer>> nearestPoints = solverOrchestrator.findNearestPoints(searchPoints);
 ```
 
 Note that the orchestrator simply returns a new list of points. The index of each result point corresponds to the index of the provided search points. So, the nearest point for the first search point will be returned at `nearestPoints.get(0)` etc.

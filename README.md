@@ -7,7 +7,7 @@ Just download the repository and include the sources in your project.
 ## Usage
 First you need to create a `KdTree` based on a list of `KdPoints`. Both are generic classes to be suitable for any data payload that extends from `java.lang.Number` and implements the `Comparable` interface. Use `Integer`, `Double` or any other payload class for the axis data.
 
-Set up a list of k-dimensional points like this:
+Start with setting up a list of k-dimensional points:
 ```java
 List<KdPoint<Integer>> points = new ArrayList<>();
 
@@ -16,14 +16,14 @@ points.add(new KdPoint<>(5, 5));
 points.add(new KdPoint<>(9, 1));
 ```
 
-Then set up a `KdTree` based on those points. Pay attention to the correct dimension count, matching the amount of individual axis values used when creating the points. For performance reasons the number of axis values is not checked for each point during tree setup.
+Now set up a `KdTree` based on those points. Pay attention to the correct dimension value, matching the amount of individual axis values used when creating the points. For performance reason the number of axis values per point is not checked during tree creation.
 
 ```java
 int dimensions = 2;
 KdTree<Integer> tree = new KdTree<>(dimensions, points);
 ```
 
-To calculate the nearest neighbour of any of the points, use a ```NNSolver``` for the used payload class.
+To calculate the nearest neighbour of an arbitrary point, use a generic ```NNSolver``` for the used axis type.
 ```java
 NNSolver<Integer> solver = new NNSolver<>(tree);
 		
@@ -33,7 +33,7 @@ KdPoint<Integer> nearestOtherPoint = solver.findNearestPoint(searchPoint);
 // Returns the point at (5, 8)
 ```
 
-Note that this library  allows nearest neighbour search for arbitrary points, which were not present and used during tree setup, as well as searching for the newest neighbour of an existing tree point. When providing a point instance, that is already present in the tree structure, the closest point except the search point itself will be returned.
+This library allows nearest neighbour search for arbitrary point instances not used during tree setup, as well as existing tree points. When providing a point instance included in the tree data, the closest point except the search point itself will be returned.
 
 ```java
 KdPoint<Integer> searchPoint = points.get(0);
@@ -45,7 +45,9 @@ KdPoint<Integer> nearestOtherPoint = solver.findNearestPoint(searchPoint);
 // the closest point would be the original point at (5, 8).
 ```
 
-To improve performance, you should always use a `NNSolverOrchestrator`, which distributes the workload to a set number of threads. Using the orchestrator is pretty straightforward:
+You should always use a `NNSolverOrchestrator` to improve performance. It distributes the workload to a set number of threads. 
+
+Using an orchestrator is just as easy:
 
 ```java
 int workerThreadsCount = Runtime.getRuntime().availableProcessors();

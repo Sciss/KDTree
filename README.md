@@ -1,5 +1,5 @@
 # nearest-neighbour
-Finding the nearest neighbour of a k-dimensional set of points using an efficient k-d tree
+Finding the [nearest neighbour](https://en.wikipedia.org/wiki/Nearest_neighbor_search) of a k-dimensional set of points using an efficient [k-d tree](https://en.wikipedia.org/wiki/K-d_tree) data structure.
 
 ## Installation
 Just download the repository and include the sources in your project.

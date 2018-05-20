@@ -2,3 +2,6 @@ bin/
 .classpath
 .project
 /data/
+.idea/
+.idea_modules/
+target/

@@ -1,4 +1,4 @@
-package de.jilocasin.kdtree.generator;
+package de.sciss.kdtree.generator;
 
 import java.util.Random;
 

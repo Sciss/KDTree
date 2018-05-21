@@ -1,4 +1,4 @@
-package de.jilocasin.kdtree.model;
+package de.sciss.kdtree;
 
 public class KdNode<T extends Number & Comparable<T>> {
 	public final KdPoint<T> point;

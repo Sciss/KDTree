@@ -1,8 +1,4 @@
-package de.jilocasin.nearestneighbour;
-
-import de.jilocasin.kdtree.model.KdNode;
-import de.jilocasin.kdtree.model.KdPoint;
-import de.jilocasin.kdtree.model.KdTree;
+package de.sciss.kdtree;
 
 /**
  * Solver class to find nearest neighbour elements in a given k-d tree. The tree

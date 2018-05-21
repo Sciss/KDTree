@@ -1,10 +1,10 @@
-package de.jilocasin.kdtree.generator;
+package de.sciss.kdtree.generator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.jilocasin.kdtree.model.KdPoint;
-import de.jilocasin.kdtree.model.KdTree;
+import de.sciss.kdtree.KdPoint;
+import de.sciss.kdtree.KdTree;
 
 public abstract class RandomKdTreeGenerator<T extends Number & Comparable<T>> {
 

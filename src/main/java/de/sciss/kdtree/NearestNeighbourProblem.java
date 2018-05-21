@@ -1,8 +1,6 @@
-package de.jilocasin.nearestneighbour;
+package de.sciss.kdtree;
 
-import de.jilocasin.kdtree.generator.RandomDoubleKdTreeGenerator;
-import de.jilocasin.kdtree.model.KdTree;
-import de.jilocasin.kdtree.model.KdNode;
+import de.sciss.kdtree.generator.RandomDoubleKdTreeGenerator;
 
 public class NearestNeighbourProblem {
 	private static final int DIMENSION_COUNT = 2;

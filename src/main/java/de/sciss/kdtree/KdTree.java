@@ -1,4 +1,4 @@
-package de.jilocasin.kdtree.model;
+package de.sciss.kdtree;
 
 import java.util.ArrayList;
 import java.util.List;

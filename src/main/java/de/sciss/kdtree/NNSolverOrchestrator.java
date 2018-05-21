@@ -1,10 +1,7 @@
-package de.jilocasin.nearestneighbour;
+package de.sciss.kdtree;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.jilocasin.kdtree.model.KdPoint;
-import de.jilocasin.kdtree.model.KdTree;
 
 public class NNSolverOrchestrator<T extends Number & Comparable<T>> {
 	private final KdTree<T> tree;

@@ -1,7 +1,7 @@
 lazy val root = project.in(file("."))
   .settings(
     name                           := "KDTree",
-    version                        := "0.1.0",
+    version                        := "0.1.1",
     organization                   := "de.sciss",
     homepage                       := Some(url(s"https://github.com/Sciss/${name.value}")),
     licenses                       := Seq("Apache 2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),

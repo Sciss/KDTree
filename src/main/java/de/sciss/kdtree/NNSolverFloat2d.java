@@ -8,27 +8,57 @@ public class NNSolverFloat2d {
     private final KdFloat2dTree tree;
 
     private float targetX, targetY;
+//    private float axisToleranceSq;
+    private boolean ignoreTarget;
 
-    private KdFloat2dPoint currentBestPoint;
-    private float currentBestDistanceSquared;
+    private KdFloat2dPoint currentBestPt;
+    private float currentBestDistanceSq;
 
     public NNSolverFloat2d(final KdFloat2dTree tree) {
         this.tree = tree;
     }
 
     public KdFloat2dPoint getClosestPoint(final KdFloat2dPoint p) {
-        return getClosestPoint(p.x, p.y);
+        return getClosestPoint(p.x, p.y, true);
+    }
+
+    public KdFloat2dPoint getClosestPoint(final KdFloat2dPoint p, boolean ignoreTarget) {
+        return getClosestPoint(p.x, p.y, ignoreTarget);
     }
 
     public KdFloat2dPoint getClosestPoint(final float x, final float y) {
-        targetX = x;
-        targetY = y;
-        this.currentBestPoint = null;
+        return getClosestPoint(x, y, true);
+    }
+
+    public KdFloat2dPoint getClosestPoint(final float x, final float y, boolean ignoreTarget) {
+        targetX                 = x;
+        targetY                 = y;
+        this.ignoreTarget       = ignoreTarget;
+        this.currentBestPt      = null;
+//        axisToleranceSq         = 0f;
 
         solveForNode(tree.rootNode);
 
-        return currentBestPoint;
+        return currentBestPt;
     }
+
+//    /** Gets any point somehow close to the search target. */
+//    public KdFloat2dPoint getAClosePoint(final KdFloat2dPoint p, float axisTolerance) {
+//        return getAClosePoint(p.x, p.y, axisTolerance);
+//    }
+//
+//    /** Gets any point somehow close to the search target. */
+//    public KdFloat2dPoint getAClosePoint(final float x, final float y, float axisTolerance) {
+//        targetX             = x;
+//        targetY             = y;
+//        ignoreTarget        = false;
+//        currentBestPt       = null;
+//        axisToleranceSq     = axisTolerance *  axisTolerance;
+//
+//        solveForNode(tree.rootNode);
+//
+//        return currentBestPt;
+//    }
 
     private void solveForNode(final KdFloat2dNode node) {
         // Move down the tree recursively to get the starting leaf node and use it as an
@@ -86,23 +116,21 @@ public class NNSolverFloat2d {
      */
     private void updateCurrentBestIfNeeded(final KdFloat2dPoint point) {
 
-// This seems wrong:
-//        // Don't use the actual search point as the best point.
-//
-//        if (point == searchTargetPoint) {
-//            return;
-//        }
+        // Don't use the actual search point as the best point.
+        if (ignoreTarget && point.x == targetX && point.y == targetY) {
+            return;
+        }
 
         final float distSq = point.getDistanceSquared(targetX, targetY);
 
-        if (currentBestPoint == null) {
-            currentBestPoint = point;
-            currentBestDistanceSquared = distSq;
+        if (currentBestPt == null) {
+            currentBestPt = point;
+            currentBestDistanceSq = distSq;
         } else {
             // Cache the leaf distance, to only do the distance calculation once.
-            if (distSq < currentBestDistanceSquared) {
-                currentBestPoint = point;
-                currentBestDistanceSquared = distSq;
+            if (distSq < currentBestDistanceSq) {
+                currentBestPt = point;
+                currentBestDistanceSq = distSq;
             }
         }
     }
@@ -133,9 +161,11 @@ public class NNSolverFloat2d {
             // Because we need to compare apples to apples, we need to calculate the squared
             // distance.
 
-            final float axisDistanceSquared = axisDistance * axisDistance;
+            final float axisDistanceSq = axisDistance * axisDistance;
 
-            if (axisDistanceSquared < currentBestDistanceSquared && parentNode.numberOfChildren() == 2) {
+//            if (axisDistanceSq < axisToleranceSq) return;
+
+            if (axisDistanceSq < currentBestDistanceSq && parentNode.numberOfChildren() == 2) {
                 // We want to traverse the other path, so we need to check which side we started
                 // unwinding from.
 

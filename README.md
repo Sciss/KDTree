@@ -16,7 +16,7 @@ such as 2D float tree. I publish this artifact to Maven Central:
 
     "de.sciss" % "kdtree" % v
     
-The current version `v` is `"0.1.0"`.
+The current version `v` is `"0.1.1"`.
 
 The library requires a JVM 1.8 or newer.
 

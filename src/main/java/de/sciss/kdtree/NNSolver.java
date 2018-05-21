@@ -7,25 +7,38 @@ package de.sciss.kdtree;
 public class NNSolver<T extends Number & Comparable<T>> {
 	private final KdTree<T> tree;
 
-	private KdPoint<T> searchTargetPoint;
+	private KdPoint<T> targetPt;
+	private boolean ignoreTarget;
 
-	private KdPoint<T> currentBestPoint;
-	private double currentBestDistanceSquared;
+	private KdPoint<T> currentBestPt;
+	private double currentBestDistanceSq;
 
 	public NNSolver(final KdTree<T> tree) {
 		this.tree = tree;
 	}
 
-	public KdPoint<T> getClosestPoint(final KdPoint<T> searchTargetPoint) {
-		this.searchTargetPoint = searchTargetPoint;
-		this.currentBestPoint = null;
+    public KdPoint<T> getClosestPoint(final KdPoint<T> p) {
+	    return getClosestPoint(p, true);
+    }
+
+    public KdPoint<T> getClosestPoint(final KdPoint<T> p, final boolean ignoreTarget) {
+		this.targetPt       = p;
+		this.ignoreTarget   = ignoreTarget;
+		this.currentBestPt  = null;
 
 		solveForNode(tree.rootNode);
 
-		return currentBestPoint;
+		return currentBestPt;
 	}
 
-	private void solveForNode(final KdNode<T> node) {
+//    /** Gets any point somehow close to the search target. */
+//    public KdPoint<T> getAClosePoint(final KdPoint<T> p) {
+//        this.targetPt = p;
+//        final KdNode<T> leaf = findLeaf(tree.rootNode);
+//        return leaf.point;
+//    }
+
+    private void solveForNode(final KdNode<T> node) {
 		// Move down the tree recursively to get the starting leaf node and use it as an
 		// initial "best point" if none was set yet.
 
@@ -58,7 +71,7 @@ public class NNSolver<T extends Number & Comparable<T>> {
 		case 2:
 			// Decide which sub node to follow.
 
-			final T searchValue = searchTargetPoint.values.get(node.axisIndex);
+			final T searchValue = targetPt.values.get(node.axisIndex);
 			final T nodeValue = node.point.values.get(node.axisIndex);
 
 			// If the axis value of the point we're searching for is greater than the axis
@@ -79,24 +92,22 @@ public class NNSolver<T extends Number & Comparable<T>> {
 	 * better than the current best.
 	 */
 	private void updateCurrentBestIfNeeded(final KdPoint<T> point) {
-// This seems wrong:
-//		// Don't use the actual search point as the best point.
-//
-//		if (point == searchTargetPoint) {
-//			return;
-//		}
+		// Don't use the actual search point as the best point.
+		if (ignoreTarget && point.equals(targetPt)) {
+			return;
+		}
 
-		if (currentBestPoint == null) {
-			currentBestPoint = point;
-			currentBestDistanceSquared = point.getDistanceSquared(searchTargetPoint);
+		if (currentBestPt == null) {
+			currentBestPt = point;
+			currentBestDistanceSq = point.getDistanceSquared(targetPt);
 		} else {
 			// Cache the leaf distance, to only do the distance calculation once.
 
-			final double leafDistanceSquared = point.getDistanceSquared(searchTargetPoint);
+			final double leafDistanceSquared = point.getDistanceSquared(targetPt);
 
-			if (currentBestPoint == null || leafDistanceSquared < currentBestDistanceSquared) {
-				currentBestPoint = point;
-				currentBestDistanceSquared = leafDistanceSquared;
+			if (currentBestPt == null || leafDistanceSquared < currentBestDistanceSq) {
+				currentBestPt = point;
+				currentBestDistanceSq = leafDistanceSquared;
 			}
 		}
 	}
@@ -119,7 +130,7 @@ public class NNSolver<T extends Number & Comparable<T>> {
 			// values.
 
 			final double parentPointValue = parentNode.point.values.get(parentNode.axisIndex).doubleValue();
-			final double searchPointValue = searchTargetPoint.values.get(parentNode.axisIndex).doubleValue();
+			final double searchPointValue = targetPt.values.get(parentNode.axisIndex).doubleValue();
 
 			final double axisDistance = parentPointValue - searchPointValue;
 
@@ -128,7 +139,7 @@ public class NNSolver<T extends Number & Comparable<T>> {
 
 			final double axisDistanceSquared = axisDistance * axisDistance;
 
-			if (axisDistanceSquared < currentBestDistanceSquared && parentNode.numberOfChildren() == 2) {
+			if (axisDistanceSquared < currentBestDistanceSq && parentNode.numberOfChildren() == 2) {
 				// We want to traverse the other path, so we need to check which side we started
 				// unwinding from.
 

@@ -1,8 +1,10 @@
 lazy val root = project.in(file("."))
   .settings(
     name                           := "KDTree",
+    version                        := "0.1.0",
     organization                   := "de.sciss",
-    version                        := "0.1.0-SNAPSHOT",
+    homepage                       := Some(url(s"https://github.com/Sciss/${name.value}")),
+    licenses                       := Seq("Apache 2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0.txt")),
     scalaVersion                   := "2.12.6", // not used
     crossPaths                     := false,
     javacOptions in Compile       ++= Seq("-target", "1.8", "-source", "1.8"),

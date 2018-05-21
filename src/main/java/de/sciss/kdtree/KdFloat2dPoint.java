@@ -4,8 +4,8 @@ package de.sciss.kdtree;
  * Defines a single floating point point in a 2-dimensional space.
  */
 public final class KdFloat2dPoint {
-	private float x;
-	private float y;
+	public final float x;
+    public final float y;
 
 	public float get(int axis) {
 	    switch(axis) {
@@ -33,6 +33,12 @@ public final class KdFloat2dPoint {
         final float dy = this.y - that.y;
         return dx*dx + dy*dy;
 	}
+
+    public float getDistanceSquared(final float x, final float y) {
+        final float dx = this.x - x;
+        final float dy = this.y - y;
+        return dx*dx + dy*dy;
+    }
 
     @Override
     public boolean equals(Object obj) {

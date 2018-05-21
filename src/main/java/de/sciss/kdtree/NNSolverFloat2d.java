@@ -7,7 +7,7 @@ package de.sciss.kdtree;
 public class NNSolverFloat2d {
     private final KdFloat2dTree tree;
 
-    private KdFloat2dPoint searchTargetPoint;
+    private float targetX, targetY;
 
     private KdFloat2dPoint currentBestPoint;
     private float currentBestDistanceSquared;
@@ -16,8 +16,13 @@ public class NNSolverFloat2d {
         this.tree = tree;
     }
 
-    public KdFloat2dPoint getClosestPoint(final KdFloat2dPoint searchTargetPoint) {
-        this.searchTargetPoint = searchTargetPoint;
+    public KdFloat2dPoint getClosestPoint(final KdFloat2dPoint p) {
+        return getClosestPoint(p.x, p.y);
+    }
+
+    public KdFloat2dPoint getClosestPoint(final float x, final float y) {
+        targetX = x;
+        targetY = y;
         this.currentBestPoint = null;
 
         solveForNode(tree.rootNode);
@@ -58,8 +63,9 @@ public class NNSolverFloat2d {
             case 2:
                 // Decide which sub node to follow.
 
-                final float searchValue = searchTargetPoint.get(node.axisIndex);
-                final float nodeValue   = node.point.get(node.axisIndex);
+                final int idx = node.axisIndex;
+                final float searchValue = idx == 0 ? targetX : targetY;
+                final float nodeValue   = node.point.get(idx);
 
                 // If the axis value of the point we're searching for is greater than the axis
                 // value of node we're looking at, continue with the right sub node.
@@ -87,17 +93,16 @@ public class NNSolverFloat2d {
 //            return;
 //        }
 
+        final float distSq = point.getDistanceSquared(targetX, targetY);
+
         if (currentBestPoint == null) {
             currentBestPoint = point;
-            currentBestDistanceSquared = point.getDistanceSquared(searchTargetPoint);
+            currentBestDistanceSquared = distSq;
         } else {
             // Cache the leaf distance, to only do the distance calculation once.
-
-            final float leafDistanceSquared = point.getDistanceSquared(searchTargetPoint);
-
-            if (leafDistanceSquared < currentBestDistanceSquared) {
+            if (distSq < currentBestDistanceSquared) {
                 currentBestPoint = point;
-                currentBestDistanceSquared = leafDistanceSquared;
+                currentBestDistanceSquared = distSq;
             }
         }
     }
@@ -119,8 +124,9 @@ public class NNSolverFloat2d {
             // Simply put, because the final axis is aligned, we can final just compare some
             // values.
 
-            final float parentPointValue = parentNode.point .get(parentNode.axisIndex);
-            final float searchPointValue = searchTargetPoint.get(parentNode.axisIndex);
+            final int idx = parentNode.axisIndex;
+            final float parentPointValue = parentNode.point .get(idx);
+            final float searchPointValue = idx == 0 ? targetX : targetY;
 
             final float axisDistance = parentPointValue - searchPointValue;
 

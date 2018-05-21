@@ -1,20 +1,19 @@
 package de.sciss.kdtreetest;
 
+import de.sciss.kdtree.KdNode;
+import de.sciss.kdtree.KdTree;
+import de.sciss.kdtree.generator.RandomDoubleKdTreeGenerator;
+import org.junit.jupiter.api.Test;
+
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import de.sciss.kdtree.KdNode;
-import de.sciss.kdtree.KdTree;
-import org.junit.jupiter.api.Test;
-
-import de.sciss.kdtree.generator.RandomDoubleKdTreeGenerator;
-
-class KdTreeTest {
+public class KdTreeTest {
 	private static final int POINT_COUNT = 100_000;
 
 	@Test
-	void testKdTree() {
+	public void testKdTree() {
 		for (int dimensionCount = 1; dimensionCount <= 10; dimensionCount++) {
 			testKdTreeWithDimensionCount(dimensionCount);
 		}

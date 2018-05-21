@@ -1,6 +1,7 @@
 lazy val root = project.in(file("."))
   .settings(
     name                           := "KDTree",
+    organization                   := "de.sciss",
     version                        := "0.1.0-SNAPSHOT",
     scalaVersion                   := "2.12.6", // not used
     crossPaths                     := false,
@@ -10,7 +11,8 @@ lazy val root = project.in(file("."))
     libraryDependencies ++= Seq(
       "com.novocode"      % "junit-interface"   % "0.11"  % Test,
       "org.junit.jupiter" % "junit-jupiter-api" % "5.2.0" % Test
-    )
+    ),
+    testOptions in Test := Seq(Tests.Argument(TestFrameworks.JUnit, "-a"))
   )
   .settings(publishSettings)
 

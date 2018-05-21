@@ -79,11 +79,13 @@ public class NNSolverFloat2d {
      * better than the current best.
      */
     private void updateCurrentBestIfNeeded(final KdFloat2dPoint point) {
-        // Don't use the actual search point as the best point.
 
-        if (point == searchTargetPoint) {
-            return;
-        }
+// This seems wrong:
+//        // Don't use the actual search point as the best point.
+//
+//        if (point == searchTargetPoint) {
+//            return;
+//        }
 
         if (currentBestPoint == null) {
             currentBestPoint = point;

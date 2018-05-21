@@ -22,7 +22,6 @@ class NNSolverFloat2dTest {
         final NNSolverFloat2d solver = new NNSolverFloat2d(tree);
 
         points.forEach(p -> {
-            System.out.println(p);
             final KdFloat2dPoint res = solver.getClosestPoint(p);
             assertEquals(res, p);
         });

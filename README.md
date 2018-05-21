@@ -1,5 +1,10 @@
 # KDTree
 
+[![Build Status](https://travis-ci.org/Sciss/KDTree.svg?branch=master)](https://travis-ci.org/Sciss/KDTree)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.sciss/kdtree/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.sciss/kdtree)
+
+## statement
+
 A static spatial index data structure, implemented in Java.
 
 Forked from [here](https://github.com/Jilocasin/nearest-neighbour). The original author is Jilocasin (Daniel Obermeier).
@@ -14,6 +19,10 @@ such as 2D float tree. I publish this artifact to Maven Central:
 The current version `v` is `"0.1.0"`.
 
 The library requires a JVM 1.8 or newer.
+
+To-do:
+
+- the junit tests somehow don't run through `sbt test`. You can execute them from IntelliJ, for example.
 
 Below is the original 'read-me':
 
